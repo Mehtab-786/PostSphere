@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-function Input({ label, type = "text", className = "", ref, ...props }) {
+function Input({ label, type = "text", className = "", ...props }, ref) {
   const id = useId();
   return (
     <div className="w-full">

@@ -78,6 +78,12 @@ function Signup() {
                 required: true,
               })}
             />
+            <Button 
+              type="submit"
+              className="w-full bg-blue-500 cursor-pointer"
+            >
+              Create Account
+            </Button>
           </div>
         </form>
       </div>

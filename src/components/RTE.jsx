@@ -18,7 +18,6 @@ function RTE({ name, control, label, defaultValue = "" }) {
               menubar:true,
               branding: false,
               height: 500,
-              menubar: true,
               plugins: [
                 "image",
                 "advlist",

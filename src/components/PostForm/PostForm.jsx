@@ -20,7 +20,7 @@ function PostForm({ post }) {
 
   const userData = useSelector((state) => state.auth.userData);
 
-  const submit = async (data) => {
+  const submitHandler = async (data) => {
     if (post) {
       const file = data.image[0]
         ? await appwriteService.uploadFile(data.image[0])
@@ -39,17 +39,17 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      console.log(data)
       const file = data.image[0]
         ? await appwriteService.uploadFile(data.image[0])
         : null;
 
       if (file) {
         const fileId = file.$id;
+        console.log(userData);
         data.featuredImage = fileId;
         const dbPost = await appwriteService.createPost({
           ...data,
-          userId: userData.$id,
+          userId: userData?.$id,
         });
 
         if (dbPost) {
@@ -57,7 +57,7 @@ function PostForm({ post }) {
         }
       }
     }
-    return 
+    return;
   };
 
   const slugTransform = useCallback((value) => {
@@ -89,7 +89,7 @@ function PostForm({ post }) {
   }, [watch, slugTransform, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-wrap">
       <div className="w-2/3 px-2">
         <Input
           label="Title :"
@@ -126,7 +126,9 @@ function PostForm({ post }) {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={`${appwriteService.getFilePreview(
+                post.featuredImage
+              )}&mode=admin`}
               alt={post.title}
               className="rounded-lg"
             />
@@ -140,8 +142,8 @@ function PostForm({ post }) {
         />
         <Button
           type="submit"
-          bgColor={post ? "bg-green-500" : undefined}
-          className="w-full"
+          bgColor={post ? "bg-green-500" : "bg-blue-500"}
+          className="w-full cursor-pointer"
         >
           {post ? "Update" : "Submit"}
         </Button>

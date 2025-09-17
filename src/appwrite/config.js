@@ -18,12 +18,13 @@ export class Services {
 
     async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
-            return await this.tableDb.createRow({
+            const post = await this.tableDb.createRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
                 rowId: slug,
                 data: { title, slug, content, featuredImage, status, userId }
             })
+            return post
 
             //         data: {                          //data can be saved in this format
             //     "username": "walter.obrien",
@@ -94,13 +95,14 @@ export class Services {
 
     async getPosts() {
         try {
-            await this.tableDb.listRows({
+            const upload = await this.tableDb.listRows({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
                 queries: [
                     Query.equal('status', "active")
                 ]
             })
+            return upload
         } catch (error) {
             console.log('Appwrite Services :: getPosts :: !', error)
             return false
@@ -125,7 +127,7 @@ export class Services {
     async deleteFile(fileId) {
         try {
             await this.bucket.deleteFile({
-                bucketId:conf.appwriteBucketId,
+                bucketId: conf.appwriteBucketId,
                 fileId
             })
             return true
@@ -136,10 +138,12 @@ export class Services {
     }
 
     getFilePreview(fileId) {
-        return this.bucket.getFilePreview({
-            bucketId:conf.appwriteBucketId,
-            fileId
+        const imageFile = this.bucket.getFilePreview({
+            bucketId: conf.appwriteBucketId,
+            fileId : fileId
         })
+        // console.log(imageFile)
+        return imageFile
     }
 };
 

@@ -4,10 +4,12 @@ import { Container, PostCard } from "../components/index";
 
 function AllPosts() {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     appwriteServices.getPosts([]).then((posts) => {
       if (posts) {
-        setPosts(posts.documents);
+        // console.log(posts)
+        setPosts(posts.rows);
       }
     });
   }, []);
@@ -17,7 +19,7 @@ function AllPosts() {
         <div className="flex flex-wrap">
           {posts.map((post) => (
             <div key={post.$id} className="p-2 w-1/4">
-              <PostCard />
+              <PostCard {...post} />
             </div>
           ))}
         </div>

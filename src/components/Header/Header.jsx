@@ -1,7 +1,6 @@
-import React from "react";
 import { Container, LogoutBtn } from "../index";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
@@ -36,35 +35,44 @@ function Header() {
     },
   ];
 
-  return (
-    <header className="py-3 shadow bg-gray-500">
-      <Container>
-        <nav className="flex">
-          {/* use propery image and navigation to home in logo */}
-          <div className="mr-4 ">Logo</div>
-          <ul className="flex ml-auto">
-            {navItems.map((item) =>
-              item.active ? (
-                <li key={item.slug}>
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full"
-                  >
-                    {item.name}
-                  </button>
-                </li>
-              ) : null
-            )}
-            {authStatus && (
-              <li>
-                <LogoutBtn />
+return (
+  <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
+    <Container>
+      <nav className="flex items-center justify-between py-2">
+        {/* Logo Section */}
+        <div className="flex items-center">
+          <span className="text-xl font-bold text-slate-900 cursor-pointer hover:text-blue-600 transition-colors duration-200">
+            Logo
+          </span>
+        </div>
+
+        {/* Navigation Menu */}
+        <ul className="flex items-center space-x-1">
+          {navItems.map((item) =>
+            item.active ? (
+              <li key={item.slug}>
+                <button
+                  onClick={() => navigate(item.slug)}
+                  className="px-4 py-2 text-balance font-medium text-slate-700 rounded-xl hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 relative group"
+                >
+                  {item.name}
+                  <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                </button>
               </li>
-            )}
-          </ul>
-        </nav>
-      </Container>
-    </header>
-  );
+            ) : null
+          )}
+          
+          {/* Logout Button */}
+          {authStatus && (
+            <li className="pl-4">
+              <LogoutBtn />
+            </li>
+          )}
+        </ul>
+      </nav>
+    </Container>
+  </header>
+);
 }
 
 export default Header;

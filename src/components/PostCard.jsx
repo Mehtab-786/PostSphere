@@ -1,34 +1,74 @@
 import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function PostCard({ $id, title, featuredImage }) {
 
-  async function oneTime(){
-    const fileimag = appwriteService.getFilePreview(featuredImage)
-    const fileidd = appwriteService.getFilePreview($id)
-    console.log($id)
-    console.log(featuredImage)
-    console.log(fileimag)
-    console.log(fileidd)
-  }
+  const [ImagePrev, setImagePrev] = useState(null)
+
   useEffect(() => {
-    // oneTime()
-  },[])
+    appwriteService?.getFileView(featuredImage)
+    .then(res => setImagePrev(res))
+    .catch(err => console.error('Preview errir', err))
+  }, [featuredImage,ImagePrev])
   
   return (
-    <Link to={`/post/${$id}`}>
-      <div className="w-full bg-gray-100 rounded-xl p-4">
-        <div className="w-full justify-center mb-4">
-            <img src={`${appwriteService.getFilePreview(featuredImage)}&mode=admin`} alt={title} 
-            className="rounded-xl"
-            />
+    <Link to={`/post/${$id}`} className="block group">
+      <article className="bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] group-hover:-translate-y-1">
+        {/* Featured Image */}
+        <div className="relative overflow-hidden aspect-video bg-slate-100">
+          <img
+            src={ImagePrev || null }
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            loading="lazy"
+          />
 
-            <div className='text-xl font-bold'>
-                <h2 className="text-black">{title}</h2>
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+          {/* Read More Badge */}
+          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="bg-white/90 backdrop-blur-sm text-slate-700 text-xs font-medium px-3 py-1.5 rounded-full border border-slate-200/60">
+              Read More
             </div>
+          </div>
         </div>
-      </div>
+
+        {/* Content */}
+        <div className="p-6">
+          <h2 className="text-lg font-bold text-slate-900 leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+            {title}
+          </h2>
+
+          {/* Meta Information */}
+          <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">A</span>
+              </div>
+              <span className="font-medium">Author</span>
+            </div>
+
+            <div className="flex items-center space-x-1">
+              <span className="mr-2 hover:text-blue-500">Read Article</span>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </article>
     </Link>
   );
 }

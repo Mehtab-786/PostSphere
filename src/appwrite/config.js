@@ -1,5 +1,5 @@
 import conf from '../conf/conf.js';
-import { Client, TablesDB, ID, Databases, Query, Storage } from "appwrite";
+import { Client, TablesDB, ID, Query, Storage } from "appwrite";
 
 
 export class Services {
@@ -25,22 +25,6 @@ export class Services {
                 data: { title, slug, content, featuredImage, status, userId }
             })
             return post
-
-            //         data: {                          //data can be saved in this format
-            //     "username": "walter.obrien",
-            //     "email": "walter.obrien@example.com",
-            //     "fullName": "Walter O'Brien",
-            //     "age": 30,
-            //     "isAdmin": false
-            // },
-
-
-            // return await this.tableDb.createRow(
-            //     conf.appwriteDatabaseId,
-            //     conf.appwriteTableId,
-            //     ID.unique(),
-            //     { title, slug, content, featuredImage, status, userId }
-            // )
         } catch (error) {
             console.log('Appwrite Services :: createPost :: !', error)
         }
@@ -137,13 +121,12 @@ export class Services {
         }
     }
 
-    getFilePreview(fileId) {
-        const imageFile = this.bucket.getFilePreview({
-            bucketId: conf.appwriteBucketId,
-            fileId : fileId
-        })
-        // console.log(imageFile)
-        return imageFile
+    async getFileView(fileId) {
+        const previewImage = this.bucket.getFileView({
+            bucketId:conf.appwriteBucketId,
+            fileId
+        })        
+        return previewImage
     }
 };
 

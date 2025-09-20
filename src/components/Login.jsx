@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login as authLogin, logout } from "../store/authSlice";
+import { login as authLogin } from "../store/authSlice";
 import { Button, Input } from "./index";
 import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 function Login() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function Login() {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(authLogin(data));
         navigate("/");
+        toast.success("Welcome back 👤")
       }
     } catch (error) {
       setError(error.message);
@@ -26,56 +28,124 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center w-full">
-      <div
-        className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}
-      >
-        <div className="mb-2 flex justify-center">
-          <span className="inline-block w-full max-w-[100px]">
-            <h3>Logo</h3>
-          </span>
-        </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
-          Sign in to your account
-        </h2>
-        <p className="mt-2 text-center text-base text-black/60">
-          Don&apos;t have any account?&nbsp;
-          <Link
-            to="/signup"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
-          >
-            Sign Up
-          </Link>
-        </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
-        <form onSubmit={handleSubmit(login)} className="mt-8">
-          <div className="space-y-5">
-            <Input
-              label="Email : "
-              type="email"
-              placeholder="Enter your email..."
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPatern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Email address is not valid",
-                },
-              })}
-            />
-            <Input
-              label="Password : "
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", {
-                required: true,
-              })}
-            />
-            <Button type="submit" classname="w-full">
-              Sign In
-            </Button>
+    <div className="min-h-screen flex items-center justify-center from-slate-100 py-12 px-4">
+      <div className="w-full max-w-md space-y-5">
+        {/* Card Container */}
+        <div className="bg-white rounded-2xl shadow-xl border border-slate-200/60 p-8 backdrop-blur-sm">
+          {/* Logo Section */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Welcome Back
+            </h1>
+            <p className="mt-2 text-sm text-slate-600">
+              Sign in to your account to continue
+            </p>
           </div>
-        </form>
+
+          {/* Error Message */}
+          {error && (
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-200">
+              <p className="text-red-700 text-sm font-medium text-center">
+                {error}
+              </p>
+            </div>
+          )}
+
+          {/* Form */}
+          <form onSubmit={handleSubmit(login)} className="space-y-6">
+            <div className="space-y-5">
+              {/* Email Input */}
+              <div className="group">
+                <Input
+                  label="Email Address"
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder:text-slate-400 text-slate-900 group-hover:border-slate-400"
+                  {...register("email", {
+                    required: true,
+                    validate: {
+                      matchPatern: (value) =>
+                        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                          value
+                        ) || "Email address is not valid",
+                    },
+                  })}
+                />
+              </div>
+
+              {/* Password Input */}
+              <div className="group">
+                <Input
+                  label="Password"
+                  type="password"
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-3 mb-2 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder:text-slate-400 text-slate-900 group-hover:border-slate-400"
+                  {...register("password", {
+                    required: true,
+                  })}
+                />
+              </div>
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                Sign In
+              </Button>
+            </div>
+          </form>
+
+          {/* Sign Up Link */}
+          <div className="text-center mb-6 mt-5">
+            <p className="text-sm text-slate-600">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200 hover:underline decoration-2 underline-offset-2"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
+
+          {/* Alternative Sign In */}
+          {/* <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-slate-500">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              className="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors duration-200"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span className="ml-2">Google</span>
+            </button>
+
+            <button
+              type="button"
+              className="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors duration-200"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.024-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.141.099 0 .199-.02.291-.099.402-.465.402-1.033.402-1.033s-.291-1.193-.402-1.404c-.402-.465-.894-.523-1.193-.523-1.193 0-1.193 1.542-1.193 2.711 0 2.168 1.542 3.768 4.395 3.768 3.41 0 6.166-2.465 6.166-6.166C18.624 5.794 15.647.029 12.017 0z"/>
+              </svg>
+              <span className="ml-2">GitHub</span>
+            </button>
+          </div>
+        </div> */}
+        </div>
       </div>
     </div>
   );

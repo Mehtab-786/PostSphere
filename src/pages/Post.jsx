@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
@@ -7,12 +7,21 @@ import { useSelector } from "react-redux";
 
 export default function Post() {
   const [post, setPost] = useState(null);
+  const [isAuthor, setIsAuthor] = useState(false);
+
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  const userData = useSelector((state) => state.auth.userData);
+  const userData = useSelector((state) => state?.auth?.userData);
 
-  const isAuthor = post && userData ? post.userId === userData.$id : false;
+
+  useEffect(() => {
+    if (post && userData) {
+      setIsAuthor(post?.userId === userData?.$id);
+    }
+  }, [post, userData]);
+
+  // const isAuthor = post && userData ? post?.userId === userData?.$id : false;
 
   useEffect(() => {
     if (slug) {
@@ -32,15 +41,21 @@ export default function Post() {
     });
   };
 
+  const [fileUrl, setFileUrl] = useState(null);
+
+  useEffect(() => {
+    if (post?.featuredImage) {
+      appwriteService.getFileView(post.featuredImage).then((url) => {
+        setFileUrl(url);
+      });
+    }
+  }, [post?.featuredImage]);
+
   return post ? (
     <div className="py-8">
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-          <img
-            src={`${appwriteService.getFilePreview(post.featuredImage)}&mode=admin`}
-            alt={post.title}
-            className="rounded-xl"
-          />
+          <img src={fileUrl || null} alt={post.title} className="rounded-xl" />
 
           {isAuthor && (
             <div className="absolute right-6 top-6">

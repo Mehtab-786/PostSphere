@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import conf from '../conf/conf.js';
 import { Client, TablesDB, ID, Query, Storage } from "appwrite";
 
@@ -27,6 +28,7 @@ export class Services {
             return post
         } catch (error) {
             console.log('Appwrite Services :: createPost :: !', error)
+            toast.warning(error.message)
         }
         return null
     }

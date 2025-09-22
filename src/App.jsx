@@ -17,8 +17,7 @@ function App() {
       .getCurrentUser()
       .then((userData) => {
         if (userData) {
-          dispatch(login({ userData }));
-          toast.success("Already logged in")
+          dispatch(login( userData ));
         } else {
           dispatch(logout());
           toast.warning("Please sign up first")

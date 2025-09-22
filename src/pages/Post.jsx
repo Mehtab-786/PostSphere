@@ -1,27 +1,23 @@
-import { useEffect,  useState } from "react";
+import { useEffect,  useMemo,  useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function Post() {
   const [post, setPost] = useState(null);
-  const [isAuthor, setIsAuthor] = useState(false);
 
   const { slug } = useParams();
   const navigate = useNavigate();
 
   const userData = useSelector((state) => state?.auth?.userData);
+      
+  const isAuther = useMemo(() => {
+    return post && userData ? post?.userId === userData?.$id : false;
+  }, [post, userData])
 
-
-  useEffect(() => {
-    if (post && userData) {
-      setIsAuthor(post?.userId === userData?.$id);
-    }
-  }, [post, userData]);
-
-  // const isAuthor = post && userData ? post?.userId === userData?.$id : false;
 
   useEffect(() => {
     if (slug) {
@@ -37,6 +33,7 @@ export default function Post() {
       if (status) {
         appwriteService.deleteFile(post.featuredImage);
         navigate("/");
+        toast.success("post deleted")
       }
     });
   };
@@ -51,29 +48,44 @@ export default function Post() {
     }
   }, [post?.featuredImage]);
 
+
   return post ? (
     <div className="py-8">
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
-          <img src={fileUrl || null} alt={post.title} className="rounded-xl" />
+          <img 
+            src={fileUrl || null} 
+            alt={post.title} 
+            className="w-full aspect-video object-contain"
+          />
 
-          {isAuthor && (
+          {isAuther && (
             <div className="absolute right-6 top-6">
+                <Button className="mr-3 bg-blue-600 px-4 py-2 rounded-lg  text-white font-medium ">
               <Link to={`/edit-post/${post.$id}`}>
-                <Button bgColor="bg-green-500" className="mr-3">
                   Edit
-                </Button>
               </Link>
+                </Button>
               <Button bgColor="bg-red-500" onClick={deletePost}>
                 Delete
               </Button>
             </div>
           )}
         </div>
-        <div className="w-full mb-6">
-          <h1 className="text-2xl font-bold">{post.title}</h1>
-        </div>
-        <div className="browser-css">{parse(post.content)}</div>
+                  <div className="px-8 py-8">
+            <div className="w-full mb-8 pb-6 border-b border-slate-200">
+              <h1 className="text-4xl font-bold text-slate-900 leading-tight">{post.title}</h1>
+            </div>
+            
+            <div className="prose prose-lg prose-slate max-w-none">
+              <div 
+                className="browser-css text-slate-700 leading-relaxed"
+                style={{ fontSize: '18px', lineHeight: '1.7' }}
+              >
+                {parse(post.content)}
+              </div>
+            </div>
+          </div>
       </Container>
     </div>
   ) : null;

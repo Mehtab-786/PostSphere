@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login as authLogin } from "../store/authSlice";
 import { Button, Input } from "./index";
@@ -11,7 +11,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   const login = async (data) => {
     try {
@@ -22,10 +22,20 @@ function Login() {
         navigate("/");
         toast.success("Welcome back 👤")
       }
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      toast.warning(err?.message)
+      toast.warning("login failed")
+      toast.warning(err)
+      setError(err.message);
+      console.log(err)
+      console.log(err.resonse)
+      alert(err)
     }
   };
+
+  useEffect(() => {
+    toast.warning(error)
+  }, [error, setError])
 
   return (
     <div className="min-h-screen flex items-center justify-center from-slate-100 py-12 px-4">

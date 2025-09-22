@@ -10,7 +10,9 @@ function Footer() {
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center space-x-3">
               <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-md">
-                <span className="text-white font-bold text-lg">L</span>
+                <span className="text-white font-bold text-lg">
+                  <img src="/logo.pnj" className="object-contain" alt="" />
+                </span>
               </div>
               <span className="text-xl font-bold text-slate-900">Logo</span>
             </div>

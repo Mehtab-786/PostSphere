@@ -10,7 +10,7 @@ function LogoutBtn() {
         authService.logout()
             .then(() => {
                 dispatch(logout())
-                toast.warning("Logged out succesfully")
+                toast.warning("User Logged out ")
             })
     }
     

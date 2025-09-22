@@ -13,7 +13,7 @@ function PostForm({ post }) {
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.slug || "",
+        slug: post?.$id || "",
         content: post?.content || "",
         status: post?.status || "active",
       },
@@ -22,57 +22,61 @@ function PostForm({ post }) {
   const [ImagePrev, setImagePrev] = useState(null);
 
   const userData = useSelector((state) => state?.auth?.userData);
-
+  
   async function getImage(id) {
     return await appwriteService
       ?.getFileView(id)
       .then((res) => setImagePrev(res))
-      .catch((err) => console.error("Preview errir", err));
+      .catch((err) => console.error("Preview error", err));
   }
 
   const submitHandler = async (data) => {
-    if (post) {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
+    try {
+      if (post) {
+        const file = data.image[0]
+          ? await appwriteService.uploadFile(data.image[0])
+          : null;
 
-      if (file) {
-        await appwriteService.deleteFile(post.featuredImage);
+        if (file) {
+          await appwriteService.deleteFile(post.featuredImage);
+        }
+
+        getImage(file?.$id);
+
+        const dbPost = await appwriteService.updatePost(post.$id, {
+          ...data,
+          featuredImage: file ? file.$id : undefined,
+        });
+
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`);
+          toast.success("Post updated");
+        }
+      } else {
+        const file = data.image[0]
+          ? await appwriteService.uploadFile(data.image[0])
+          : null;
+
+        if (file) {
+          const fileId = file.$id;
+          getImage(fileId);
+          data.featuredImage = fileId;
+        }
+
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          userId: userData?.$id,
+        });
+
+        if (dbPost) {
+          navigate(`/post/${dbPost.$id}`);
+          toast.success("Post created");
+        }
       }
-
-      getImage(file?.$id);
-
-      const dbPost = await appwriteService.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      });
-
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-        toast.success('Post updated')
-      }
-    } else {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
-
-      if (file) {
-        const fileId = file.$id;
-        getImage(fileId);
-        data.featuredImage = fileId;
-      }
-
-      const dbPost = await appwriteService.createPost({
-        ...data,
-        userId: userData?.$id,
-      });
-
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-        toast.success("Post created")
-      }
+    } catch (err) {
+      toast.warning(err.message);
+      console.log("Appwrite error :: create/update post ::", err);
     }
-    return;
   };
 
   const slugTransform = useCallback((value) => {

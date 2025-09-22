@@ -42,7 +42,7 @@ return (
         {/* Logo Section */}
         <div className="flex items-center">
           <span className="text-xl font-bold text-slate-900 cursor-pointer hover:text-blue-600 transition-colors duration-200">
-            Logo
+logo
           </span>
         </div>
 

@@ -99,11 +99,11 @@ export class Services {
 
     async uploadFile(file) {
         try {
-            return await this.bucket.createFile(
-                conf.appwriteBucketId,
-                ID.unique(),
+            return await this.bucket.createFile({
+                bucketId: conf.appwriteBucketId,
+                fileId: ID.unique(),
                 file
-            )
+        })
         } catch (error) {
             console.log('Appwrite Services :: uploadFile ::!', error)
             return false
@@ -124,11 +124,10 @@ export class Services {
     }
 
     async getFileView(fileId) {
-        const previewImage = this.bucket.getFileView({
+        return this.bucket.getFileView({
             bucketId:conf.appwriteBucketId,
-            fileId
+            fileId : fileId
         })        
-        return previewImage
     }
 };
 

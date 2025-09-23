@@ -13,6 +13,7 @@ import Post from "./pages/Post.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
+import About from "./pages/About.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             <AllPosts />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/about",
+        element: (
+          <AuthLayout authentication={false}>
+            <About />
           </AuthLayout>
         ),
       },

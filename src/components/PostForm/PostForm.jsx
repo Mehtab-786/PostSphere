@@ -23,12 +23,20 @@ function PostForm({ post }) {
 
   const userData = useSelector((state) => state?.auth?.userData);
   
-  async function getImage(id) {
-    return await appwriteService
-      ?.getFileView(id)
-      .then((res) => setImagePrev(res))
-      .catch((err) => console.error("Preview error", err));
-  }
+  useEffect(() => {
+  const loadPreview = async () => {
+    try {
+      if (post?.featuredImage && !ImagePrev) {
+        const url = await appwriteService.getFileView(post.featuredImage);
+        setImagePrev(url);
+      }
+    } catch (error) {
+      console.error("Error loading preview:", error);
+    }
+  };
+  loadPreview();
+}, [post?.featuredImage]);
+
 
   const submitHandler = async (data) => {
     try {
@@ -40,8 +48,6 @@ function PostForm({ post }) {
         if (file) {
           await appwriteService.deleteFile(post.featuredImage);
         }
-
-        getImage(file?.$id);
 
         const dbPost = await appwriteService.updatePost(post.$id, {
           ...data,
@@ -59,7 +65,7 @@ function PostForm({ post }) {
 
         if (file) {
           const fileId = file.$id;
-          getImage(fileId);
+          setImagePrev(fileId);
           data.featuredImage = fileId;
         }
 
@@ -264,20 +270,21 @@ function PostForm({ post }) {
                       {...register("image", { required: !post })}
                     />
 
-                    {post && (
-                      <div className="relative group">
-                        <img
-                          src={ImagePrev}
-                          alt={post.title}
-                          className="w-full rounded-lg shadow-sm border border-slate-200 transition-transform duration-200 group-hover:scale-[1.02]"
-                        />
-                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-center justify-center">
-                          <span className="text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
-                            Current Image
-                          </span>
-                        </div>
-                      </div>
-                    )}
+{ImagePrev && (
+  <div className="relative group">
+    <img
+      src={ImagePrev}
+      alt={post?.title?.slice(0, 50) || "Post Image"}
+      className="w-full rounded-lg shadow-sm border border-slate-200 transition-transform duration-200 group-hover:scale-[1.02]"
+    />
+    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-center justify-center">
+      <span className="text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
+        Current Image
+      </span>
+    </div>
+  </div>
+)}
+
                   </div>
                 </div>
 

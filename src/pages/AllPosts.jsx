@@ -131,7 +131,7 @@ function AllPosts() {
         </div>
 
         {/* Load More Button (Future Enhancement) */}
-        {posts.length >= 12 && (
+        {/* {posts.length >= 12 && (
           <div className="mt-12 text-center">
             <button className="inline-flex items-center px-8 py-3 bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl text-slate-700 font-medium transition-all duration-200 shadow-sm hover:shadow-md">
               Load More Posts
@@ -150,7 +150,7 @@ function AllPosts() {
               </svg>
             </button>
           </div>
-        )}
+        )} */}
       </Container>
     </div>
   );

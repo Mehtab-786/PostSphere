@@ -11,6 +11,7 @@ import Container from './container/Container.jsx'
 import PostForm from './PostForm/PostForm.jsx'
 import PostCard from './PostCard.jsx'
 import AuthLayout from './AuthLayout.jsx'
+import Logo from './Logo.jsx'
 
 export {
     Footer,
@@ -25,5 +26,6 @@ export {
     Container,
     PostForm,
     PostCard,
-    AuthLayout
+    AuthLayout,
+    Logo
 };

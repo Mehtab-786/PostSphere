@@ -48,6 +48,7 @@ export class Services {
             })
         } catch (error) {
             console.log('Appwrite Services :: updatePost :: !', error)
+            toast.warning(error.message)
         }
         return null
     }
@@ -75,6 +76,7 @@ export class Services {
             })
         } catch (error) {
             console.log('Appwrite Services :: getPost :: !', error)
+            toast.warning(error.message)
             return false
         }
     }
@@ -106,6 +108,7 @@ export class Services {
         })
         } catch (error) {
             console.log('Appwrite Services :: uploadFile ::!', error)
+            toast.warning(error.message)
             return false
         }
     }

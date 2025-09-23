@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import conf from '../conf/conf.js';
 import { Client, Account, ID } from "appwrite";
 
@@ -30,6 +31,7 @@ export class AuthService {
             }
         } catch (err) {
             console.log('Appwrite Services :: createAccount :: !', err)
+            toast.warning(err.message)
         }
         return null
     }
@@ -43,6 +45,7 @@ export class AuthService {
             return loggedInUser
         } catch (err) {
             console.log('Appwrite Services :: login :: !', err)
+            toast.warning("Username or Password is incorrect")
         }
     }
 

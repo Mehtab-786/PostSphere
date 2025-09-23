@@ -18,24 +18,16 @@ function Login() {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
-        if (userData) dispatch(authLogin(data));
+        if (userData) dispatch(authLogin(userData));
         navigate("/");
         toast.success("Welcome back 👤")
       }
     } catch (err) {
-      toast.warning(err?.message)
-      toast.warning("login failed")
-      toast.warning(err)
+      toast.warning("Username or Password is incorrect")
       setError(err.message);
       console.log(err)
-      console.log(err.resonse)
-      alert(err)
     }
   };
-
-  useEffect(() => {
-    toast.warning(error)
-  }, [error, setError])
 
   return (
     <div className="min-h-screen flex items-center justify-center from-slate-100 py-12 px-4">

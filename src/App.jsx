@@ -19,8 +19,8 @@ function App() {
         if (userData) {
           dispatch(login(userData));
         } else {
-          dispatch(logout());
-          toast.warning("Please sign up first");
+          // dispatch(logout());
+          toast.warning("Please sign up to post");
         }
       })
       .finally(() => setloading(false));

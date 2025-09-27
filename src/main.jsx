@@ -50,7 +50,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />
+        element: <About />,
       },
       {
         path: "/add-post",
@@ -70,7 +70,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/post/:slug",
-        element: <Post />,
+        element: (
+          <AuthLayout>
+            <Post />
+          </AuthLayout>
+        ),
       },
     ],
   },

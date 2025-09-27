@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, RTE, Select } from "../index";
+import { Button, Input, Select } from "../index";
+const RTE = lazy(() => import('../RTE'))
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -68,10 +69,11 @@ function PostForm({ post }) {
           setImagePrev(fileId);
           data.featuredImage = fileId;
         }
-
+        
         const dbPost = await appwriteService.createPost({
           ...data,
           userId: userData?.$id,
+          userName:userData?.name
         });
 
         if (dbPost) {
@@ -115,6 +117,7 @@ function PostForm({ post }) {
 
   return (
     <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 py-12">
+      <Suspense fallback={<div className="text-center self-center justify-self-center text-2xl font-semibold">Loading...</div>}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
@@ -276,6 +279,7 @@ function PostForm({ post }) {
       src={ImagePrev}
       alt={post?.title?.slice(0, 50) || "Post Image"}
       className="w-full rounded-lg shadow-sm border border-slate-200 transition-transform duration-200 group-hover:scale-[1.02]"
+      loading="lazy"
     />
     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg flex items-center justify-center">
       <span className="text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
@@ -330,6 +334,7 @@ function PostForm({ post }) {
           </form>
         </div>
       </div>
+      </Suspense>
     </div>
   );
 }

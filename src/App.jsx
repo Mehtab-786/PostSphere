@@ -17,10 +17,10 @@ function App() {
       .getCurrentUser()
       .then((userData) => {
         if (userData) {
-          dispatch(login( userData ));
+          dispatch(login(userData));
         } else {
           dispatch(logout());
-          toast.warning("Please sign up first")
+          toast.warning("Please sign up first");
         }
       })
       .finally(() => setloading(false));
@@ -32,24 +32,23 @@ function App() {
         <Header />
         <main className="flex-1">
           <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-        theme="light"
-        transition={Slide}
-        style={{zIndex:999}}
-      />
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="light"
+            transition={Slide}
+            style={{ zIndex: 999 }}
+          />
           <Outlet />
         </main>
         <Footer />
       </div>
-      
     </div>
   ) : null;
 }

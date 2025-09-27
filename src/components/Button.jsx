@@ -7,7 +7,7 @@ function Button({
   ...props
 }) {
   return <button 
-    className={`px-4 py-2 rounded-lg cursor-pointer ${classname} ${bgColor} ${textColor}`} {...props}
+    className={`px-4 py-2 rounded-lg  ${classname} ${bgColor} ${textColor} cursor-pointer`} {...props}
   >{children}</button>;
 }
 

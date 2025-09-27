@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import appwriteServices from "../appwrite/config";
-import { Container, PostCard } from "../components/index";
+import { Container} from "../components/index";
+const PostCard = lazy(() => import("../components/PostCard"));
 
 function AllPosts() {
   const [posts, setPosts] = useState([]);
@@ -125,7 +126,9 @@ function AllPosts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {posts.map((post) => (
             <div key={post.$id} className="group">
+              <Suspense fallback={<div className="text-center self-center justify-self-center text-2xl font-semibold">Loading...</div>}>
               <PostCard {...post} />
+              </Suspense>
             </div>
           ))}
         </div>

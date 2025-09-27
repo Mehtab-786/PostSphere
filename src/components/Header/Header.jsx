@@ -45,7 +45,7 @@ function Header() {
                 <li key={item.slug}>
                   <button
                     onClick={() => navigate(item.slug)}
-                    className="px-3 py-2 font-medium text-slate-700 rounded-lg hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 relative group"
+                    className="px-3 py-2 font-medium text-slate-700 rounded-lg hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 relative group cursor-pointer"
                   >
                     {item.name}
                     <span className="absolute inset-x-1 -bottom-px h-px bg-gradient-to-r from-blue-600 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
@@ -61,7 +61,7 @@ function Header() {
               <>
                 {/* Username */}
                 <button
-                 className="px-4 py-2.5 bg-slate-300 text-slate-700 rounded-xl font-medium text-sm shadow-sm hover:bg-slate-200 transition-all duration-200">
+                 className="px-4 py-2.5 bg-slate-300 text-slate-700 rounded-xl font-medium text-sm shadow-sm hover:bg-slate-200 transition-all duration-200 cursor-pointer">
                   {name}
                 </button>
                 {/* Logout */}
@@ -71,13 +71,13 @@ function Header() {
               <>
                 <Button
                   onClick={() => navigate("/login")}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-xl font-medium text-sm hover:bg-blue-600 transition-all duration-200"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-xl font-medium text-sm hover:bg-blue-600 transition-all duration-200 cursor-pointer"
                 >
                   Login
                 </Button>
                 <Button
                   onClick={() => navigate("/signup")}
-                  className="px-4 py-2 bg-indigo-500 text-white rounded-xl font-medium text-sm hover:bg-indigo-600 transition-all duration-200"
+                  className="px-4 py-2 bg-indigo-500 text-white rounded-xl font-medium text-sm hover:bg-indigo-600 transition-all duration-200 cursor-pointer"
                 >
                   Signup
                 </Button>

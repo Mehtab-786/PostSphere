@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function PostCard({ $id, title, featuredImage }) {
+function PostCard({ $id, title, featuredImage,userName }) {
 
   const [ImagePrev, setImagePrev] = useState(null)
 
   useEffect(() => {
     appwriteService?.getFileView(featuredImage)
     .then(res => setImagePrev(res))
-    .catch(err => console.error('Preview errir', err))
+    .catch(err => console.error('Preview error', err))
   }, [featuredImage,ImagePrev])
   
   return (
@@ -23,9 +23,6 @@ function PostCard({ $id, title, featuredImage }) {
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             loading="lazy"
           />
-
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
           {/* Read More Badge */}
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -45,9 +42,9 @@ function PostCard({ $id, title, featuredImage }) {
           <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
             <div className="flex items-center space-x-2">
               <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">A</span>
+                <span className="text-white text-xs font-bold">{userName.slice(0,1)}</span>
               </div>
-              <span className="font-medium">Author</span>
+              <span className="font-medium">{userName}</span>
             </div>
 
             <div className="flex items-center space-x-1">
@@ -73,4 +70,4 @@ function PostCard({ $id, title, featuredImage }) {
   );
 }
 
-export default PostCard;
+export default React.memo(PostCard);

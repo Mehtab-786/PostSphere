@@ -17,7 +17,7 @@ function LogoutBtn() {
     return (
         <button 
             onClick={logoutHandler} 
-            className="group relative px-5 py-2.5 bg-red-500 hover:bg-red-700 text-white text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-105"
+            className="group relative px-5 py-2.5 bg-red-500 hover:bg-red-700 text-white text-sm font-medium rounded-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
         >
             <span className="flex items-center">
                 <svg 

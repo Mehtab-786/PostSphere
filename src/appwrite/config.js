@@ -17,13 +17,13 @@ export class Services {
         this.bucket = new Storage(this.client);
     };
 
-    async createPost({ title, slug, content, featuredImage, status, userId }) {
+    async createPost({ title, slug, content, featuredImage, status, userId,userName }) {
         try {
             const post = await this.tableDb.createRow({
                 databaseId: conf.appwriteDatabaseId,
                 tableId: conf.appwriteTableId,
                 rowId: slug,
-                data: { title, slug, content, featuredImage, status, userId }
+                data: { title, slug, content, featuredImage, status, userId, userName }
             })
             return post
         } catch (error) {

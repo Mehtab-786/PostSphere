@@ -10,9 +10,9 @@ function AuthLayout({ children, authentication = true }) {
 
   useEffect(() => {
     // todo-can be made in a easy way
-        // if(authStatus) navigate('/')
-        // else navigate('/login')
-    
+    // if(authStatus) navigate('/')
+    // else navigate('/login')
+
     if (authentication && authStatus !== authentication) {
       navigate("/login");
     } else if (!authentication && authStatus !== authentication) {

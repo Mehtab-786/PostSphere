@@ -2,23 +2,23 @@ import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import React, { useEffect, useState } from "react";
 
-function PostCard({ $id, title, featuredImage,userName }) {
-
-  const [ImagePrev, setImagePrev] = useState(null)
+function PostCard({ $id, title, featuredImage, userName }) {
+  const [ImagePrev, setImagePrev] = useState(null);
 
   useEffect(() => {
-    appwriteService?.getFileView(featuredImage)
-    .then(res => setImagePrev(res))
-    .catch(err => console.error('Preview error', err))
-  }, [featuredImage,ImagePrev])
-  
+    appwriteService
+      ?.getFileView(featuredImage)
+      .then((res) => setImagePrev(res))
+      .catch((err) => console.error("Preview error", err));
+  }, [featuredImage, ImagePrev]);
+
   return (
     <Link to={`/post/${$id}`} className="block group">
       <article className="bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-300 transform group-hover:scale-[1.02] group-hover:-translate-y-1">
         {/* Featured Image */}
         <div className="relative overflow-hidden aspect-video bg-slate-100">
           <img
-            src={ImagePrev || null }
+            src={ImagePrev || null}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             loading="lazy"
@@ -42,7 +42,9 @@ function PostCard({ $id, title, featuredImage,userName }) {
           <div className="mt-4 flex items-center justify-between text-sm text-slate-500">
             <div className="flex items-center space-x-2">
               <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-bold">{userName.slice(0,1)}</span>
+                <span className="text-white text-xs font-bold">
+                  {userName.slice(0, 1)}
+                </span>
               </div>
               <span className="font-medium">{userName}</span>
             </div>

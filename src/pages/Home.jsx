@@ -22,6 +22,7 @@ function Home() {
     return (
       <div className="flex-1 flex items-center justify-center min-h-[60vh] bg-gradient-to-br from-slate-50 to-slate-100">
         <Container>
+          {/* Header texts */}
           <div className="text-center space-y-6">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-lg mb-4">
               <svg
@@ -47,6 +48,33 @@ function Home() {
                 Discover amazing stories and insights. Sign in to access all
                 posts and join our community.
               </p>
+            </div>
+          </div>
+          {/* Loading animation */}
+          <div className="flex items-center justify-center min-h-[20vh]">
+            <div className="text-center space-y-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl animate-pulse">
+                <svg
+                  className="w-6 h-6 text-white animate-spin"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+              <p className="text-slate-600 font-medium">Loading posts...</p>
             </div>
           </div>
         </Container>

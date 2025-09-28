@@ -8,10 +8,10 @@ function Logo({ className = "" }) {
       </div> */}
 
       {/* Brand text */}
-      <Link to='/'>
-      <span className="text-2xl font-extrabold tracking-wide">
-        Post<span className="text-blue-500">Sphere</span>
-      </span>
+      <Link to="/">
+        <span className="text-2xl font-extrabold tracking-wide">
+          Post<span className="text-blue-500">Sphere</span>
+        </span>
       </Link>
     </div>
   );

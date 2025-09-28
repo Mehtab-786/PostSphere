@@ -1,16 +1,22 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import appwriteServices from "../appwrite/config";
-import { Container} from "../components/index";
+import { Button, Container} from "../components/index";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const PostCard = lazy(() => import("../components/PostCard"));
 
-function AllPosts() {
+function MyPost() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const userData = useSelector(state => state?.auth?.userData)
+  const navigate =  useNavigate()
+  
   useEffect(() => {
     appwriteServices.getPosts([]).then((posts) => {
       if (posts) {
-        setPosts(posts.rows);
+        let userPost = posts.rows.filter((post) => post?.userName === userData?.name)
+        setPosts(userPost)
       }
       setLoading(false);
     });
@@ -77,9 +83,9 @@ function AllPosts() {
                 No Posts Found
               </h2>
               <p className="text-slate-600 max-w-md mx-auto">
-                There are no posts available at the moment. Check back later for
-                new content.
+                It looks like you haven't posted anything yet. Don't worry, everyone starts somewhere! Click the button below to get started.
               </p>
+              <Button onClick={() => navigate('/add-post')} >Add Your First Post</Button>
             </div>
           </div>
         </Container>
@@ -98,7 +104,7 @@ function AllPosts() {
                 All Posts
               </h1>
               <p className="text-slate-600">
-                Explore our complete collection of {posts.length}{" "}
+                Explore your collection of {posts.length}{" "}
                 {posts.length === 1 ? "post" : "posts"}
               </p>
             </div>
@@ -159,4 +165,4 @@ function AllPosts() {
   );
 }
 
-export default AllPosts;
+export default MyPost;

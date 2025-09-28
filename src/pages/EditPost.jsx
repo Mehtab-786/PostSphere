@@ -139,7 +139,7 @@ function EditPost() {
                 </button>
 
                 <button
-                  onClick={() => navigate("/all-posts")}
+                  onClick={() => navigate("/my-post")}
                   className="inline-flex items-center px-6 py-3 bg-white hover:bg-slate-50 text-slate-700 font-medium rounded-xl border border-slate-200 transition-all duration-200 shadow-sm cursor-pointer"
                 >
                   <svg
@@ -155,7 +155,7 @@ function EditPost() {
                       d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
                     />
                   </svg>
-                  View All Posts
+                  View Your Posts
                 </button>
               </div>
             </div>

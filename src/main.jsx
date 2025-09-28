@@ -7,13 +7,13 @@ import store from "./store/store.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthLayout } from "./components/index.js";
 import AddPost from "./pages/AddPost.jsx";
-import AllPosts from "./pages/AllPosts.jsx";
 import EditPost from "./pages/EditPost.jsx";
 import Post from "./pages/Post.jsx";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import About from "./pages/About.jsx";
+import MyPost from "./pages/MyPost.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,10 +41,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/all-posts",
+        path: "/my-post",
         element: (
           <AuthLayout authentication>
-            <AllPosts />
+            <MyPost />
           </AuthLayout>
         ),
       },

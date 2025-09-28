@@ -20,12 +20,12 @@ function Login() {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(authLogin(userData));
         navigate("/");
-        toast.success("Welcome back 👤")
+        toast.success("Welcome back 👤");
       }
     } catch (err) {
-      toast.warning("Username or Password is incorrect")
+      toast.warning("Username or Password is incorrect");
       setError(err.message);
-      console.log(err)
+      console.log(err);
     }
   };
 

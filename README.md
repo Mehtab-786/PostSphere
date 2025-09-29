@@ -1,12 +1,48 @@
-# React + Vite
+🚀 PostSphere
+PostSphere is a modern full-stack blogging web application built with React.js, Tailwind CSS, Redux Toolkit, and Appwrite. It enables users to create, edit, and manage rich blog content using the TinyMCE Editor, with seamless authentication and file handling powered by Appwrite’s BaaS capabilities.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 Live Demo: [PostSphere-react.vercel.app](https://post-sphere.vercel.app/)
 
-Currently, two official plugins are available:
+🛠️ Tech Stack
+Frontend: React.js, Tailwind CSS, Redux Toolkit
+Backend (BaaS): Appwrite (for Authentication, Database, and Storage)
+Rich Text Editor: TinyMCE
+State Management: Redux Toolkit
+✨ Features
+🔐 User Authentication (Sign up / Log in / Log out)
+📝 Create, edit, and delete blog posts with a WYSIWYG editor
+📦 Upload and store images/files via Appwrite Storage
+🗃️ Appwrite Realtime Database integration
+⚡ Responsive UI with Tailwind CSS
+🗂️ Organized codebase with reusable components and Redux slices
+📦 Getting Started
+1. Clone the repo
+git clone https://github.com/Mehtab-786/PostSphere.git
+cd PostSphere
+2. Install dependencies
+npm install
+3. Configure Appwrite
+Create a project on Appwrite
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Set up:
 
-## Expanding the ESLint configuration
+Authentication (Email/Password)
+Database (for storing blog posts)
+Storage (for media uploads)
+Copy the relevant credentials (Project ID, Endpoint, etc.)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. Set up .env file
+Create a .env file in the root with the following:
+
+VITE_APP_APPWRITE_URL=YOUR_APP_APPWRITE_URL
+VITE_APPWRITE_PROJECT_ID=YOUR_APPWRITE_PROJECT_ID
+VITE_APPWRITE_DATABASE_ID=YOUR_APPWRITE_DATABASE_ID
+VITE_APPWRITE_TABLE_ID=YOUR_APPWRITE_TABLE_ID
+VITE_APPWRITE_BUCKET_ID=YOUR_APPWRITE_BUCKET_ID
+VITE_TINYMCE_KEY=YOUR_TINYMCE_KEY
+
+5. Run the app
+npm run dev
+
+👤 Author
+Mehtab Hussain 🔗 LinkedIn

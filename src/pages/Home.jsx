@@ -1,20 +1,29 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import appwriteServices from "../appwrite/config";
 import { Container } from "../components/index";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchALLPost } from "../store/postSlice";
 const PostCard = lazy(() => import("../components/PostCard"));
 
 function Home() {
-  const [posts, setPosts] = useState([]);
-
-  async function getPosts() {
-    await appwriteServices.getPosts().then((posts) => {
-      if (posts) {
-        setPosts(posts.rows);
-      }
-    });
-  }
+  const dispatch = useDispatch();
+  const { status, posts } = useSelector((state) => state?.post);
 
   useEffect(() => {
+    async function getPosts() {
+      try {
+        if (status === "succeed") return;
+
+        await appwriteServices.getPosts().then((posts) => {
+          if (posts) {
+            dispatch(fetchALLPost(posts.rows));
+          }
+        });
+      } catch (error) {
+        console.log("Error while fetching post :: ", error);
+      } 
+    }
+
     getPosts();
   }, []);
 

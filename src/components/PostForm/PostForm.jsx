@@ -4,11 +4,13 @@ import { Button, Input, Select } from "../index";
 const RTE = lazy(() => import("../RTE"));
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { fetchAddPost, fetchUpdatePost } from "../../store/postSlice";
 
 function PostForm({ post }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -55,6 +57,7 @@ function PostForm({ post }) {
         });
 
         if (dbPost) {
+          dispatch(fetchUpdatePost(dbPost));
           navigate(`/post/${dbPost.$id}`);
           toast.success("Post updated");
         }
@@ -76,6 +79,7 @@ function PostForm({ post }) {
         });
 
         if (dbPost) {
+          dispatch(fetchAddPost(dbPost));
           navigate(`/post/${dbPost.$id}`);
           toast.success("Post created");
         }

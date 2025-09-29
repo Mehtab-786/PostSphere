@@ -1,26 +1,39 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import appwriteServices from "../appwrite/config";
-import { Button, Container} from "../components/index";
+import { Button, Container } from "../components/index";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchALLPost } from "../store/postSlice";
 const PostCard = lazy(() => import("../components/PostCard"));
 
 function MyPost() {
-  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userData = useSelector(state => state?.auth?.userData)
-  const navigate =  useNavigate()
-  
-  useEffect(() => {
-    appwriteServices.getPosts([]).then((posts) => {
+  const userData = useSelector((state) => state?.auth?.userData);
+  const { posts, status } = useSelector((state) => state.post);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  async function getData() {
+    return await appwriteServices.getPosts().then((posts) => {
       if (posts) {
-        let userPost = posts.rows.filter((post) => post?.userName === userData?.name)
-        setPosts(userPost)
+        dispatch(fetchALLPost(posts.rows));
+        setLoading(false);
       }
-      setLoading(false);
     });
-  }, []);
+  }
+
+  const userPosts = useMemo(() => {
+    if (!userData || !posts) return [];
+    return posts.filter((post) => post.userId == userData.$id);
+  }, [userData, posts]);
+
+  useEffect(() => {
+    if (status === "idle") {
+      getData();
+    }
+    setLoading(false);
+  }, [status, dispatch]);
 
   if (loading) {
     return (
@@ -57,7 +70,7 @@ function MyPost() {
     );
   }
 
-  if (posts.length === 0) {
+  if (userPosts.length === 0) {
     return (
       <div className="flex-1 bg-gradient-to-br from-slate-50 to-slate-100 py-12">
         <Container>
@@ -83,9 +96,13 @@ function MyPost() {
                 No Posts Found
               </h2>
               <p className="text-slate-600 max-w-md mx-auto">
-                It looks like you haven't posted anything yet. Don't worry, everyone starts somewhere! Click the button below to get started.
+                It looks like you haven't posted anything yet. Don't worry,
+                everyone starts somewhere! Click the button below to get
+                started.
               </p>
-              <Button onClick={() => navigate('/add-post')} >Add Your First Post</Button>
+              <Button onClick={() => navigate("/add-post")}>
+                Add Your First Post
+              </Button>
             </div>
           </div>
         </Container>
@@ -104,8 +121,8 @@ function MyPost() {
                 All Posts
               </h1>
               <p className="text-slate-600">
-                Explore your collection of {posts.length}{" "}
-                {posts.length === 1 ? "post" : "posts"}
+                Explore your collection of {userPosts.length}{" "}
+                {userPosts.length === 1 ? "post" : "posts"}
               </p>
             </div>
 
@@ -130,13 +147,19 @@ function MyPost() {
 
         {/* Posts Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {posts.map((post) => (
-            <div key={post.$id} className="group">
-              <Suspense fallback={<div className="text-center self-center justify-self-center text-2xl font-semibold">Loading...</div>}>
-              <PostCard {...post} />
-              </Suspense>
-            </div>
-          ))}
+          <Suspense
+            fallback={
+              <div className="text-center self-center justify-self-center text-2xl font-semibold">
+                Loading...
+              </div>
+            }
+          >
+            {userPosts.map((post) => (
+              <div key={post.$id} className="group">
+                <PostCard {...post} />
+              </div>
+            ))}
+          </Suspense>
         </div>
 
         {/* Load More Button (Future Enhancement) */}

@@ -3,14 +3,16 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Button, Container } from "../components";
 import parse from "html-react-parser";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { fetchDeletePost } from "../store/postSlice";
 
 export default function Post() {
   const [post, setPost] = useState(null);
 
   const { slug } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const userData = useSelector((state) => state?.auth?.userData);
 
@@ -40,8 +42,9 @@ export default function Post() {
     appwriteService.deletePost(post.$id).then((status) => {
       if (status) {
         appwriteService.deleteFile(post.featuredImage);
+        dispatch(fetchDeletePost({ postId: post.$id }));
         navigate("/");
-        toast.success("post deleted");
+        toast.success("post deleted successfully");
       }
     });
   };

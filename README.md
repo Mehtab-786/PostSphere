@@ -8,6 +8,7 @@ Frontend: React.js, Tailwind CSS, Redux Toolkit
 Backend (BaaS): Appwrite (for Authentication, Database, and Storage)
 Rich Text Editor: TinyMCE
 State Management: Redux Toolkit
+
 ✨ Features
 🔐 User Authentication (Sign up / Log in / Log out)
 📝 Create, edit, and delete blog posts with a WYSIWYG editor
@@ -15,17 +16,19 @@ State Management: Redux Toolkit
 🗃️ Appwrite Realtime Database integration
 ⚡ Responsive UI with Tailwind CSS
 🗂️ Organized codebase with reusable components and Redux slices
+
 📦 Getting Started
 1. Clone the repo
 git clone https://github.com/Mehtab-786/PostSphere.git
 cd PostSphere
-2. Install dependencies
+
+3. Install dependencies
 npm install
-3. Configure Appwrite
+
+4. Configure Appwrite
 Create a project on Appwrite
 
 Set up:
-
 Authentication (Email/Password)
 Database (for storing blog posts)
 Storage (for media uploads)
@@ -33,7 +36,6 @@ Copy the relevant credentials (Project ID, Endpoint, etc.)
 
 4. Set up .env file
 Create a .env file in the root with the following:
-
 VITE_APP_APPWRITE_URL=YOUR_APP_APPWRITE_URL
 VITE_APPWRITE_PROJECT_ID=YOUR_APPWRITE_PROJECT_ID
 VITE_APPWRITE_DATABASE_ID=YOUR_APPWRITE_DATABASE_ID
